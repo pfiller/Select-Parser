@@ -4,11 +4,11 @@ A small class for turning an HTML select element into an array of javascript obj
 
 ## Usage
 
-Simply Call
+Simply call:
  
     window.SelectParser.select_to_array( html_element )
 
-And Get Back
+And get back an ordered array of options:
 
     [
       # Groups
