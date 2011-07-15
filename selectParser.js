@@ -34,21 +34,27 @@
     };
     SelectParser.prototype.add_option = function(option, group_id, group_disabled) {
       var _ref;
-      if (option.nodeName === "OPTION" && (this.sel_index > 0 || option.text !== "")) {
-        if (group_id || group_id === 0) {
-          this.parsed[group_id].children += 1;
+      if (option.nodeName === "OPTION") {
+        if (option.text !== "") {
+          if (group_id || group_id === 0) {
+            this.parsed[group_id].children += 1;
+          }
+          this.parsed.push({
+            id: this.sel_index + this.group_index,
+            select_index: this.sel_index,
+            value: option.value,
+            text: option.text,
+            selected: option.selected,
+            disabled: (_ref = group_disabled === true) != null ? _ref : {
+              group_disabled: option.disabled
+            },
+            group_id: group_id
+          });
+        } else {
+          this.parsed.push({
+            empty: true
+          });
         }
-        this.parsed.push({
-          id: this.sel_index + this.group_index,
-          select_index: this.sel_index,
-          value: option.value,
-          text: option.text,
-          selected: option.selected,
-          disabled: (_ref = group_disabled === true) != null ? _ref : {
-            group_disabled: option.disabled
-          },
-          group_id: group_id
-        });
         return this.sel_index += 1;
       }
     };

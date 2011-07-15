@@ -26,17 +26,21 @@ class SelectParser
     @group_index += 1
 
   add_option: (option, group_id, group_disabled) ->
-    if option.nodeName is "OPTION" and (@sel_index > 0 or option.text != "")
-      if group_id || group_id is 0
-        @parsed[group_id].children += 1
-      @parsed.push
-        id: @sel_index + @group_index
-        select_index: @sel_index
-        value: option.value
-        text: option.text
-        selected: option.selected
-        disabled: ((group_disabled is true) ? group_disabled : option.disabled)
-        group_id: group_id
+    if option.nodeName is "OPTION"
+      if option.text != ""
+        if group_id || group_id is 0
+          @parsed[group_id].children += 1
+        @parsed.push
+          id: @sel_index + @group_index
+          select_index: @sel_index
+          value: option.value
+          text: option.text
+          selected: option.selected
+          disabled: ((group_disabled is true) ? group_disabled : option.disabled)
+          group_id: group_id
+      else
+        @parsed.push
+          empty: true
       @sel_index += 1
 
 SelectParser.select_to_array = (select) ->

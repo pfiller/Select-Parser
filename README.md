@@ -30,5 +30,10 @@ And get back an ordered array of options:
         selected: option selected state
         disabled: option disabled state
         group_id: if the option is part of a group, the group id
+      },
+      
+      # Blank Options
+      {
+        empty: true
       }
     ]
