@@ -15,7 +15,7 @@
         <option>Washington Redskins</option>
       <optgroup>
       <optgroup label="NFC NORTH">
-        <option>Chicago Bears</option>
+        <option selected>Chicago Bears</option>
         <option>Detroit Lions</option>
         <option>Green Bay Packers</option>
         <option>Minnesota Vikings</option>
@@ -60,7 +60,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.0.0/prototype.js"></script>
     <script src="selectParser.js"></script>
     <script type="text/javascript">
-      console.dir( SelectParser.select_to_array($('nfl_team_single')) );
+      var parsed_data = SelectParser.select_to_array($('nfl_team_single'));
+      console.log("console.dir(parsed_data) ->");
+      console.dir(parsed_data);
     </script>
   </body>
 </html>
