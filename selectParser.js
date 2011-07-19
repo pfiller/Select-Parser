@@ -3,8 +3,7 @@
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
   SelectParser = (function() {
     function SelectParser() {
-      this.group_index = 0;
-      this.sel_index = 0;
+      this.options_index = 0;
       this.parsed = [];
     }
     SelectParser.prototype.add_node = function(child) {
@@ -15,47 +14,49 @@
       }
     };
     SelectParser.prototype.add_group = function(group) {
-      var group_id, option, _i, _len, _ref;
-      group_id = this.sel_index + this.group_index;
+      var group_position, option, _i, _len, _ref, _results;
+      group_position = this.parsed.length;
       this.parsed.push({
-        id: group_id,
+        array_index: group_position,
         group: true,
         label: group.label,
-        position: this.group_index,
         children: 0,
         disabled: group.disabled
       });
       _ref = group.childNodes;
+      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         option = _ref[_i];
-        this.add_option(option, group_id, group.disabled);
+        _results.push(this.add_option(option, group_position, group.disabled));
       }
-      return this.group_index += 1;
+      return _results;
     };
-    SelectParser.prototype.add_option = function(option, group_id, group_disabled) {
+    SelectParser.prototype.add_option = function(option, group_position, group_disabled) {
       var _ref;
       if (option.nodeName === "OPTION") {
         if (option.text !== "") {
-          if (group_id || group_id === 0) {
-            this.parsed[group_id].children += 1;
+          if (group_position != null) {
+            this.parsed[group_position].children += 1;
           }
           this.parsed.push({
-            id: this.sel_index + this.group_index,
-            select_index: this.sel_index,
+            array_index: this.parsed.length,
+            options_index: this.options_index,
             value: option.value,
             text: option.text,
             selected: option.selected,
             disabled: (_ref = group_disabled === true) != null ? _ref : {
               group_disabled: option.disabled
             },
-            group_id: group_id
+            group_array_index: group_position
           });
         } else {
           this.parsed.push({
+            array_index: this.parsed.length,
+            options_index: this.options_index,
             empty: true
           });
         }
-        return this.sel_index += 1;
+        return this.options_index += 1;
       }
     };
     return SelectParser;

@@ -3,8 +3,7 @@ root = exports ? this
 class SelectParser
   
   constructor: ->
-    @group_index = 0
-    @sel_index = 0
+    @options_index = 0
     @parsed = []
 
   add_node: (child) ->
@@ -14,34 +13,34 @@ class SelectParser
       this.add_option child
 
   add_group: (group) ->
-    group_id = @sel_index + @group_index
+    group_position = @parsed.length
     @parsed.push
-      id: group_id
+      array_index: group_position
       group: true
       label: group.label
-      position: @group_index
       children: 0
       disabled: group.disabled
-    this.add_option( option, group_id, group.disabled ) for option in group.childNodes
-    @group_index += 1
+    this.add_option( option, group_position, group.disabled ) for option in group.childNodes
 
-  add_option: (option, group_id, group_disabled) ->
+  add_option: (option, group_position, group_disabled) ->
     if option.nodeName is "OPTION"
       if option.text != ""
-        if group_id || group_id is 0
-          @parsed[group_id].children += 1
+        if group_position?
+          @parsed[group_position].children += 1
         @parsed.push
-          id: @sel_index + @group_index
-          select_index: @sel_index
+          array_index: @parsed.length
+          options_index: @options_index
           value: option.value
           text: option.text
           selected: option.selected
           disabled: ((group_disabled is true) ? group_disabled : option.disabled)
-          group_id: group_id
+          group_array_index: group_position
       else
         @parsed.push
+          array_index: @parsed.length
+          options_index: @options_index
           empty: true
-      @sel_index += 1
+      @options_index += 1
 
 SelectParser.select_to_array = (select) ->
   parser = new SelectParser()

@@ -13,27 +13,28 @@ And get back an ordered array of options:
     [
       # Groups
       {
-        id: a unique identifier for the group,
-        group: is a group (true|false),
-        label: group label,
-        position: index in the returned array,
-        children: number of children in the group,
+        array_index: index in the returned array
+        children: number of children in the group
         disabled: group disabled state
+        group: is a group (true|false)
+        label: group label
       },
       
       # Options
       {
-        id: a unique identifier for the option,
-        select_index: index in the returned array,
-        value: option value
-        text: option text
-        selected: option selected state
+        array_index: index in the returned array
         disabled: option disabled state
-        group_id: if the option is part of a group, the group id
+        group_array_index: if the option is part of a group, the group's index in the returned array
+        options_index: index in the form options array
+        selected: option selected state
+        text: option text
+        value: option value
       },
       
       # Blank Options
       {
+        array_index: index in the returned array
         empty: true
+        options_index: index in the form options array
       }
     ]
